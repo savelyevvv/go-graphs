@@ -5,3 +5,6 @@
    If a node has no neighbors, then the value for it is an empty list
 * DFS uses a stack
 * BFS uses a queue
+* A cycle -> a path which can lead to the same source node:
+A->B->A or A->B->C->A, etc.
+* Acyclic graph -> a graph without cycles

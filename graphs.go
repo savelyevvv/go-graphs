@@ -8,7 +8,7 @@ import (
 )
 
 func DFS(start string, graph map[string][]string) {
-	s := stack.NewStack[string]()
+	s := stack.New[string]()
 	s.Push(start)
 	for !s.IsEmpty() {
 		node := s.Pop()
@@ -28,7 +28,7 @@ func DFSR(source string, graph map[string][]string) {
 }
 
 func BFS(source string, graph map[string][]string) {
-	q := queue.NewQueue[string]()
+	q := queue.New[string]()
 	q.Add(source)
 	for !q.IsEmpty() {
 		node := q.Remove()
@@ -38,6 +38,40 @@ func BFS(source string, graph map[string][]string) {
 		fmt.Print(node)
 	}
 	fmt.Println()
+}
+
+func HasPathDFS(src, dst string, graph map[string][]string) bool {
+	var rsl bool
+	stack := stack.New[string]()
+	stack.Push(src)
+	for !stack.IsEmpty() {
+		node := stack.Pop()
+		if node == dst {
+			rsl = true
+			break
+		}
+		for _, neighbor := range graph[node] {
+			stack.Push(neighbor)
+		}
+	}
+	return rsl
+}
+
+func HasPathBFS(src, dst string, graph map[string][]string) bool {
+	var rsl bool
+	queue := queue.New[string]()
+	queue.Add(src)
+	for !queue.IsEmpty() {
+		node := queue.Remove()
+		if node == dst {
+			rsl = true
+			break
+		}
+		for _, neighbor := range graph[node] {
+			queue.Add(neighbor)
+		}
+	}
+	return rsl
 }
 
 var g = map[string][]string{
@@ -53,4 +87,5 @@ var g = map[string][]string{
 	"j": {},
 	"k": {},
 	"l": {},
+	"m": {"l"},
 }
