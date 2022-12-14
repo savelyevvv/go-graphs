@@ -20,6 +20,13 @@ func DFS(start string, list map[string][]string) {
 	fmt.Println()
 }
 
+func DFSR(node string, list map[string][]string) {
+	fmt.Print(node)
+	for _, neighbor := range list[node] {
+		DFSR(neighbor, list)
+	}
+}
+
 func BFS(start string, list map[string][]string) {
 	q := queue.NewQueue[string]()
 	q.Add(start)
@@ -46,7 +53,4 @@ var g = map[string][]string{
 	"j": {},
 	"k": {},
 	"l": {},
-}
-
-func main() {
 }

@@ -9,3 +9,8 @@ func ExampleBFS() {
 	BFS("a", g)
 	// Output: abcdefklighj
 }
+
+func ExampleDFSR() {
+	DFSR("a", g)
+	// Output: abegfhckldij
+}
