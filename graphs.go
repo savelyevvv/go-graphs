@@ -18,12 +18,19 @@ func DFS(start string, list map[string][]string) {
 		fmt.Print(node)
 	}
 	fmt.Println()
-	_ = s
 }
 
-func BFS(list map[string][]string) {
-	s := queue.NewQueue[string]()
-	_ = s
+func BFS(start string, list map[string][]string) {
+	q := queue.NewQueue[string]()
+	q.Add(start)
+	for !q.IsEmpty() {
+		node := q.Remove()
+		for _, neighbor := range list[node] {
+			q.Add(neighbor)
+		}
+		fmt.Print(node)
+	}
+	fmt.Println()
 }
 
 var g = map[string][]string{
@@ -42,5 +49,4 @@ var g = map[string][]string{
 }
 
 func main() {
-	DFS("a", g)
 }
