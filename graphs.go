@@ -7,12 +7,12 @@ import (
 	"github.com/savelyevvv/go-collections/stack"
 )
 
-func DFS(start string, list map[string][]string) {
+func DFS(start string, graph map[string][]string) {
 	s := stack.NewStack[string]()
 	s.Push(start)
 	for !s.IsEmpty() {
 		node := s.Pop()
-		for _, neighbor := range list[node] {
+		for _, neighbor := range graph[node] {
 			s.Push(neighbor)
 		}
 		fmt.Print(node)
@@ -20,19 +20,19 @@ func DFS(start string, list map[string][]string) {
 	fmt.Println()
 }
 
-func DFSR(node string, list map[string][]string) {
-	fmt.Print(node)
-	for _, neighbor := range list[node] {
-		DFSR(neighbor, list)
+func DFSR(source string, graph map[string][]string) {
+	fmt.Print(source)
+	for _, neighbor := range graph[source] {
+		DFSR(neighbor, graph)
 	}
 }
 
-func BFS(start string, list map[string][]string) {
+func BFS(source string, graph map[string][]string) {
 	q := queue.NewQueue[string]()
-	q.Add(start)
+	q.Add(source)
 	for !q.IsEmpty() {
 		node := q.Remove()
-		for _, neighbor := range list[node] {
+		for _, neighbor := range graph[node] {
 			q.Add(neighbor)
 		}
 		fmt.Print(node)
