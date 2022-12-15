@@ -7,51 +7,63 @@ import (
 	"github.com/savelyevvv/go-collections/stack"
 )
 
-func DFS(start string, graph map[string][]string) {
+func DFS(src string, graph map[string][]string) {
 	s := stack.New[string]()
-	s.Push(start)
+	s.Push(src)
+	seen := map[string]struct{}{src: {}}
 	for !s.IsEmpty() {
 		node := s.Pop()
+		fmt.Print(node)
 		for _, neighbor := range graph[node] {
-			s.Push(neighbor)
+			if _, ok := seen[neighbor]; !ok {
+				seen[neighbor] = struct{}{}
+				s.Push(neighbor)
+			}
+		}
+	}
+	fmt.Println()
+}
+
+func BFS(src string, graph map[string][]string) {
+	q := queue.New[string]()
+	q.Add(src)
+	seen := map[string]struct{}{src: {}}
+	for !q.IsEmpty() {
+		node := q.Remove()
+		for _, neighbor := range graph[node] {
+			if _, ok := seen[neighbor]; !ok {
+				seen[neighbor] = struct{}{}
+				q.Add(neighbor)
+			}
 		}
 		fmt.Print(node)
 	}
 	fmt.Println()
 }
 
-func DFSR(source string, graph map[string][]string) {
-	fmt.Print(source)
-	for _, neighbor := range graph[source] {
+func DFSR(src string, graph map[string][]string) {
+	fmt.Print(src)
+	for _, neighbor := range graph[src] {
 		DFSR(neighbor, graph)
 	}
 }
 
-func BFS(source string, graph map[string][]string) {
-	q := queue.New[string]()
-	q.Add(source)
-	for !q.IsEmpty() {
-		node := q.Remove()
-		for _, neighbor := range graph[node] {
-			q.Add(neighbor)
-		}
-		fmt.Print(node)
-	}
-	fmt.Println()
-}
-
 func HasPathDFS(src, dst string, graph map[string][]string) bool {
 	var rsl bool
-	stack := stack.New[string]()
-	stack.Push(src)
-	for !stack.IsEmpty() {
-		node := stack.Pop()
+	s := stack.New[string]()
+	s.Push(src)
+	seen := map[string]struct{}{src: {}}
+	for !s.IsEmpty() {
+		node := s.Pop()
 		if node == dst {
 			rsl = true
 			break
 		}
 		for _, neighbor := range graph[node] {
-			stack.Push(neighbor)
+			if _, ok := seen[neighbor]; !ok {
+				seen[neighbor] = struct{}{}
+				s.Push(neighbor)
+			}
 		}
 	}
 	return rsl
@@ -59,16 +71,20 @@ func HasPathDFS(src, dst string, graph map[string][]string) bool {
 
 func HasPathBFS(src, dst string, graph map[string][]string) bool {
 	var rsl bool
-	queue := queue.New[string]()
-	queue.Add(src)
-	for !queue.IsEmpty() {
-		node := queue.Remove()
+	q := queue.New[string]()
+	q.Add(src)
+	seen := map[string]struct{}{src: {}}
+	for !q.IsEmpty() {
+		node := q.Remove()
 		if node == dst {
 			rsl = true
 			break
 		}
 		for _, neighbor := range graph[node] {
-			queue.Add(neighbor)
+			if _, ok := seen[neighbor]; !ok {
+				seen[neighbor] = struct{}{}
+				q.Add(neighbor)
+			}
 		}
 	}
 	return rsl
