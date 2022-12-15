@@ -93,6 +93,19 @@ func HasPathBFS(src, dst string, graph AdjacencyList) bool {
 	return rsl
 }
 
+func FromEdgeListToAdjacencyList(edges EdgeList, directed bool) AdjacencyList {
+	graph := make(AdjacencyList)
+	for _, edge := range edges {
+		a := edge[0]
+		b := edge[1]
+		graph[a] = append(graph[a], b)
+		if !directed {
+			graph[b] = append(graph[b], a)
+		}
+	}
+	return graph
+}
+
 var g = AdjacencyList{
 	"a": {"b", "c", "d"},
 	"b": {"e", "f"},
@@ -100,12 +113,7 @@ var g = AdjacencyList{
 	"d": {"i"},
 	"e": {"g"},
 	"f": {"h"},
-	"g": {},
-	"h": {},
 	"i": {"j"},
-	"j": {},
-	"k": {},
-	"l": {},
 	"m": {"l"},
 }
 
@@ -127,4 +135,9 @@ var edges = EdgeList{
 	{"a", "d"},
 	{"d", "i"},
 	{"i", "j"},
+}
+
+func main() {
+	rsl := FromEdgeListToAdjacencyList(edges, false)
+	fmt.Println(rsl)
 }
